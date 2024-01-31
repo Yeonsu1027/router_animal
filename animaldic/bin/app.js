@@ -22,6 +22,7 @@ import logger from 'morgan';
 import indexRouter from '../routes/index.js';
 import usersRouter from '../routes/users.js';
 
+
 // create express framework
 const app = express();
 
@@ -47,6 +48,7 @@ app.use(express.static(path.join("public")));
 // router link enable, link connection
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

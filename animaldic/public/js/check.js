@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const todo = todoInput.value;
     //todo 가 falsy(비어있으)면
     if (!todo) {
-      alert("TO DO 내용을 입력해 주세요");
+      alert("내용을 입력해 주세요");
       todoInput.select(); //입력칸에 커서옮겨가게
       return false; // 입력이 안되면 더이상진행x
     }
