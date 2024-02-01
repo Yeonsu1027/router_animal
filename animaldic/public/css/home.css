@@ -254,3 +254,15 @@ h3.other {
 div.etc article a img:hover {
   opacity: 0.7;
 }
+.fa {
+  /* 아이콘 옆으로띄우기 */
+  margin-left: 5px;
+}
+
+.fa-bell {
+  color: orange;
+}
+
+ul#gnb {
+  font-weight: bold;
+}

@@ -102,27 +102,3 @@ span.close:hover {
 h3.checklist {
   text-align: center;
 }
-/* 아이콘들 */
-.fa-calendar,
-.fa-bell,
-.fa-book-medical,
-.fa-magnifying-glass,
-.fa-plus {
-  /* 아이콘 옆으로띄우기 */
-  margin-right: 5px;
-}
-.fa-user-plus,
-.fa-feather,
-.fa-thumbtack,
-.fa-comment,
-.fa-arrow-right,
-.fa-house,
-.fa-book,
-.fa-bell,
-.fa-magnifying-glass {
-  margin-left: 5px;
-}
-.fa-bell {
-  color: orange;
-}
-/* 아이콘 end */
