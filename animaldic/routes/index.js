@@ -19,9 +19,9 @@ router.get("/recom", async (req, res) => {
 
 // 메뉴들 ------------------------------
 
-router.get("/freeboard", async (req, res) => {
-  res.render("menu/freeboard");
-});
+// router.get("/freeboard", async (req, res) => {
+//   res.render("menu/freeboard/freeboard");
+// });
 router.get("/notice", async (req, res) => {
   res.render("menu/notice");
 });
