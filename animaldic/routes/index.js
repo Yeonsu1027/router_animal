@@ -1,6 +1,7 @@
 import express from "express";
 import DB from "../models/index.js";
 const ANIMAL = DB.models.tbl_animal;
+const CHECK = DB.models.tbl_check;
 
 const router = express.Router();
 
