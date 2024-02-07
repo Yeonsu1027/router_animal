@@ -1,5 +1,6 @@
 import express from "express";
 import DB from "../models/index.js";
+const ANIMAL = DB.models.tbl_animal;
 
 const router = express.Router();
 
@@ -35,7 +36,16 @@ router.get("/join", async (req, res) => {
 });
 // 동물들 ---------------------------------------
 
+const 동물이름 = {
+  기니피그: "기니피그",
+  친칠라: "친칠라",
+  햄스터: "햄스터",
+};
+
 router.get("/mouse1", async (req, res) => {
+  //const animalname = 동물이름.기니피그;
+  //const animaldata = await ANIMAL.findByPk(animalname);
+  //return res.render("animal/mouse/mouse1", { adata: animaldata });
   res.render("animal/mouse/mouse1");
 });
 router.get("/mouse2", async (req, res) => {
