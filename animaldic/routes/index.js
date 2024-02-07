@@ -43,8 +43,9 @@ const 동물이름 = {
 };
 
 router.get("/mouse1", async (req, res) => {
-  //const animalname = 동물이름.기니피그;
-  //const animaldata = await ANIMAL.findByPk(animalname);
+  const animalname = 동물이름.기니피그;
+  // const animaldata = await ANIMAL.findByPk(animalname);
+
   //return res.render("animal/mouse/mouse1", { adata: animaldata });
   res.render("animal/mouse/mouse1");
 });

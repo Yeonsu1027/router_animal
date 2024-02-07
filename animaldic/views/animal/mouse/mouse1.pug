@@ -18,16 +18,13 @@ block content
             li
                 a(href="#p4") 주의사항
         span
+            each item in adata
             article.box1
                 p#p1 
                 header.header
                     strong 사육조건 
-                | 케이지를 자주 청소하여 항상 깨끗이 한다.
-                br
-                | 기니피그의 건강에 유익한 온도는 18도에서 23도까지이다.
-                br 
-                |  습기와 지나친 더위에 약하므로 주의하여야 한다.
-                br
+                p= item.a_condition
+                | 아무말
             article.box2
                 p#p2
                 header.header

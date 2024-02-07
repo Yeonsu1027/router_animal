@@ -1,0 +1,62 @@
+CREATE DATABASE aniamlDB;
+USE animalDB;
+
+-- 동물정보 tbl
+CREATE TABLE tbl_animal (a_name	VARCHAR(20)		PRIMARY KEY,
+a_condition	VARCHAR(300)	NOT NULL,	
+a_food	VARCHAR(300)	NOT NULL,	
+a_habit	VARCHAR(300)	NOT NULL,	
+a_caution	VARCHAR(300)	NOT NULL	
+);
+
+-- --------------------------------------------------
+
+-- 회원정보 tbl
+CREATE TABLE tbl_members (
+m_username	VARCHAR(15)		PRIMARY KEY,
+m_password	VARCHAR(125)	NOT NULL,	
+m_realname	VARCHAR(20),
+m_tel	VARCHAR(15),		
+m_role	VARCHAR(5)		
+);
+
+-- ****확인용 회원정보생성 & 체크리스트
+INSERT INTO tbl_members (m_username,m_password)
+VALUES ('callor','12341234');
+INSERT INTO tbl_check (u_user, u_check)
+VALUES('callor','털정리');
+
+
+-- 홈체크리스트 tbl
+CREATE TABLE tbl_check (
+u_user	VARCHAR(15)	NOT NULL,
+u_check	VARCHAR(100)	NOT NULL
+);
+
+-- 회원정보 tbl의 m_username 기준으로 fk
+ALTER TABLE tbl_members
+ADD CONSTRAINT FK_CUSER
+FOREIGN KEY (m_username)
+REFERENCES tbl_check(u_user);
+
+-- ---------------
+-- 공지사항 tbl
+CREATE TABLE tbl_notice (n_director	VARCHAR(20)		PRIMARY KEY,
+n_viewer	VARCHAR(20),	
+n_caution	VARCHAR(200)		
+);
+
+-- 자유게시판 tbl
+CREATE TABLE tbl_bbd (num	BIGINT		PRIMARY KEY,
+author	VARCHAR(150)	NOT NULL,	
+password	VARCHAR(150)	NOT NULL,	
+title	VARCHAR(150)	NOT NULL,	
+content	TEXT	NOT NULL	
+);
+
+-- 2개 테이블 fk type 맞춰야함
+DROP TABLE tbl_notice;
+DROP TABLE tbl_bbd;
+-- ---------------------------------
+-- 동물테이블 import 확인용
+SELECT * FROM tbl_animal;
