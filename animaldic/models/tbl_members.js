@@ -4,14 +4,14 @@ export default class tbl_members extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
+        m_num: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+        },
         m_username: {
           type: DataTypes.STRING(15),
           allowNull: false,
-          primaryKey: true,
-          references: {
-            model: "tbl_notice",
-            key: "n_director",
-          },
         },
         m_password: {
           type: DataTypes.STRING(125),
@@ -39,7 +39,7 @@ export default class tbl_members extends Model {
             name: "PRIMARY",
             unique: true,
             using: "BTREE",
-            fields: [{ name: "m_username" }],
+            fields: [{ name: "m_num" }],
           },
         ],
       }

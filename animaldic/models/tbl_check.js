@@ -4,10 +4,14 @@ export default class tbl_check extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
+        u_num: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+        },
         u_user: {
           type: DataTypes.STRING(15),
           allowNull: false,
-          primaryKey: true,
         },
         u_check: {
           type: DataTypes.STRING(100),
@@ -23,7 +27,7 @@ export default class tbl_check extends Model {
             name: "PRIMARY",
             unique: true,
             using: "BTREE",
-            fields: [{ name: "u_user" }],
+            fields: [{ name: "u_num" }],
           },
         ],
       }

@@ -1,4 +1,4 @@
-CREATE DATABASE aniamlDB;
+CREATE DATABASE animalDB;
 USE animalDB;
 
 -- 동물정보 tbl
@@ -15,20 +15,24 @@ SELECT * FROM tbl_animal;
 
 -- 회원정보 tbl
 CREATE TABLE tbl_members (
-m_username	VARCHAR(15)		PRIMARY KEY,
+m_num	INT		PRIMARY KEY,
+m_username	VARCHAR(15)	NOT NULL,	
 m_password	VARCHAR(125)	NOT NULL,	
-m_realname	VARCHAR(20),
+m_realname	VARCHAR(20),		
 m_tel	VARCHAR(15),		
 m_role	VARCHAR(5)		
+
 );
 
 
 -- 홈체크리스트 tbl
 CREATE TABLE tbl_check (
-u_user	VARCHAR(15)	PRIMARY KEY,
+u_num	INT		PRIMARY KEY,
+u_user	VARCHAR(15)	NOT NULL,	
 u_check	VARCHAR(100)	NOT NULL
 );
 
+SELECT * FROM tbl_check;
 -- ---------------
 -- 공지사항 tbl
 CREATE TABLE tbl_notice (n_director	VARCHAR(20)		PRIMARY KEY,
@@ -46,10 +50,10 @@ content	TEXT	NOT NULL
 -- ***!!! FK 연결용 data ***--------------------------
 -- fk 연결 및 확인용 테이블 기본내용 생성
 -- fk 동일해야함 callor
-INSERT INTO tbl_members (m_username,m_password)
-VALUES ('callor','12341234');
-INSERT INTO tbl_check (u_user, u_check)
-VALUES('callor','털정리');
+INSERT INTO tbl_members (m_num,m_username,m_password)
+VALUES ('1','callor','12341234');
+INSERT INTO tbl_check (u_num,u_user, u_check)
+VALUES('1','callor','털정리');
 INSERT INTO tbl_notice (n_director,n_caution)
 VALUES ('callor','주의사항 내용');
 INSERT INTO tbl_bbd (num,author,password,title,content)
@@ -83,5 +87,19 @@ FOREIGN KEY (m_username)
 REFERENCES tbl_bbd(author);
 
 
+-- 싹다 삭제---------------
+DROP TABLE tbl_check;
+DROP TABLE tbl_notice;
+DROP TABLE tbl_bbd;
+DROP TABLE tbl_members;
 
+ALTER TABLE tbl_members
+DROP CONSTRAINT FK_CUSER;
+ALTER TABLE tbl_members
+DROP CONSTRAINT FK_NUSER;
+ALTER TABLE tbl_members
+DROP CONSTRAINT FK_BUSER;
+-- ------------------------------
 
+SELECT * FROM tbl_members;
+SELECT * FROM tbl_check;

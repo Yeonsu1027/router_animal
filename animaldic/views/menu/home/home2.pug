@@ -1,0 +1,37 @@
+extends ../../layout
+
+block content
+    script(src="")
+    link(rel='stylesheet', href='/css/check2.css')
+    link(rel='stylesheet', href='/css/home.css')
+    article
+        h3.checklist
+                strong  의 CheckList
+                    i.fa.fa-check-square
+        section.input.ckcss
+            form(method="POST") 
+                input(placeholder="할일입력", name="u_check", id="u_check")
+                input.input_hidden(type="text", placeholder="(유저id :callor)", name="u_user", id="u_user")
+                input.input_hidden(type="text", placeholder="(일련번호)", name="u_num", id="u_num")
+                input.add(type="submit",value="추가하기")
+        section.list.ckcss
+            each item in check
+                ul
+                    li= item.u_check
+    h3.other Other Contents
+        i.fa.fa-plus-circle
+    div.etc.notwhitespace
+        article
+            a(href="/youtube")
+                img.youtube(src="images/youtube.png" alt="유튜브아이콘")
+                p 추천 영상
+        article
+            a(href="/survey")
+                img(src="images/sur.png")
+                p 나는 반려동물을
+                p 잘 키울 수 있을까?
+                p 스스로 체크해보자!
+        article
+            a(href="/recom")
+                img(src="images/animalicon.png")
+                p 반려동물 어플 추천
