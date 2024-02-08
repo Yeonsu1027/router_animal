@@ -2,18 +2,20 @@ extends ../../layout
 
 block content
     script(src="")
+    //- script(src="/js/check2.js")
     link(rel='stylesheet', href='/css/check2.css')
     link(rel='stylesheet', href='/css/home.css')
     article
         h3.checklist
+            p callor(변수로 변경예정)
                 strong  의 CheckList
                     i.fa.fa-check-square
         section.input.ckcss
             form(method="POST") 
-                input(placeholder="할일입력", name="u_check", id="u_check")
-                input.input_hidden(type="text", placeholder="(유저id :callor)", name="u_user", id="u_user")
-                input.input_hidden(type="text", placeholder="(일련번호)", name="u_num", id="u_num")
-                input.add(type="submit",value="추가하기")
+                input.add_check(placeholder="할일입력", name="u_check", id="u_check")
+                input.input_hidden(type="text",  name="u_user", id="u_user")
+                input.input_hidden(type="text",  name="u_num", id="u_num")
+                input.add(type="submit",value="추가 +")
         section.list.ckcss
             each item in check
                 ul

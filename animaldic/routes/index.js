@@ -19,17 +19,19 @@ router.post("/", async (req, res) => {
   // 데이터를 추가할때 req.body.u_user = 유저id 넣고
   // checklist 앞에다가 if user ${유저}의 넣기 else 그냥체크리스트
   // 로그인후 이용가능합니다
+  // else 입력칸, 추가하기 누르면 알림
 
   // 체크리스트 마지막 번호 가져오기
   const strchecknum = await CHECK.findAll({ order: [["u_num", "DESC"]], limit: 1 });
-  const num = strchecknum[0].u_num; // json으로 확인해보니 배열이었네
+  const num = strchecknum[0].u_num; // json으로 확인해보니 배열1개로 들어있음
   const intchecknum = Number(num) + 1;
 
+  // test
   // return res.json({ intchecknum }); // 번호생성체크용
-  // return res.json({ strchecknum }); // 정상적으로 가져와짐..
+  // return res.json({ strchecknum }); // 정상적으로 가져와짐
 
   req.body.u_num = intchecknum; // 입력데이터 일련번호 자동생성
-  req.body.u_user = "callor"; // 후에 = 로그인한 아이디로 수정
+  req.body.u_user = "callor"; // 후에 = 로그인한 아이디로 수정 pug dataset사용
 
   await CHECK.create(req.body);
   return res.redirect("/");
