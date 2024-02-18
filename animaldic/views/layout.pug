@@ -23,12 +23,18 @@ html(lang="ko")
       li
         a(href="/notice") 공지사항
           i.fa.fa-exclamation
-      li
-        a(href="login") 로그인
-          i.fa.fa-user-circle
-      li
-        a(href="/join") 회원가입
-          i.fa.fa-user-plus
+      if user
+        //- li MyPAGE(#{user.m_username})
+        //-   i.fa.fa-address-book
+        a.logout(href="/logout") 로그아웃
+          i.fa.fa-ban
+      else
+        li
+          a(href="login") 로그인
+            i.fa.fa-user-circle
+        li
+          a(href="/join") 회원가입
+            i.fa.fa-user-plus
     ul.alrim
       li.alrim
         a(href="https://vpet.co.kr/category/%ED%8C%8C%EC%86%90%EC%9C%A0%ED%86%B5%EA%B8%B0%ED%95%9C%EC%9E%84%EB%B0%95/441/" target="new")

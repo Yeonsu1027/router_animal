@@ -1,33 +1,36 @@
 import {Model} from 'sequelize';
 
-
-export default class tbl_members extends Model {
+export default class tbl_myanimal extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    m_username: {
+    ma_user: {
       type: DataTypes.STRING(15),
       allowNull: false,
       primaryKey: true
     },
-    m_password: {
-      type: DataTypes.STRING(125),
-      allowNull: false
-    },
-    m_realname: {
-      type: DataTypes.STRING(20),
+    ma_animalname: {
+      type: DataTypes.STRING(30),
       allowNull: true
     },
-    m_tel: {
-      type: DataTypes.STRING(15),
+    ma_age: {
+      type: DataTypes.STRING(3),
       allowNull: true
     },
-    m_role: {
-      type: DataTypes.STRING(5),
+    ma_image_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ma_image_origin_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ma_memo: {
+      type: DataTypes.STRING(300),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tbl_members',
+    tableName: 'tbl_myanimal',
     timestamps: false,
     indexes: [
       {
@@ -35,7 +38,7 @@ export default class tbl_members extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "m_username" },
+          { name: "ma_user" },
         ]
       },
     ]

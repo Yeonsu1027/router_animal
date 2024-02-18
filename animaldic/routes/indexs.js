@@ -11,37 +11,64 @@ const MYANIMAL = DB.models.tbl_myanimal;
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+ 
+  // const row = await CHECK.findAll({
+  //   where: {
+  //     m_username: req.session.user.m_username
+  //   }
+  // })
+  // if(row){
+
+  //   res.render("menu/home/home2", { check: row });
+  // } else {
+  //   res.render("menu/home/home2");
+  // }
+
+    const row = await CHECK.findAll();
+
+  //  const u_userddd = req.session.user.m_username
+  //  if(u_userddd){
+  //  const users = await CHECK.findAll({
+  //   where: {
+  //     u_user: u_userddd
+  //   }
+  // })
+  // res.json(users)}
+  // else {
+  //   return res.render("menu/home/home3")
+  // }
+  //  const rows = await CHECK.findAll({
+  //   attributes:['u_user'],
+  //   where: {}
+
+  //  });
+ // const row = await CHECK.find(where);
+  // const rows = await CHECK.findAll({
+  //   where: {
+  //     u_user : where
+  //   }
+  // });
+  // return res.render("menu/home/home2", { check: rows.map(row => row.c_check) });
+//   if (users) {
+//   return res.render("menu/home/home3", { check: users });}
+//   else {
+// return res.render("menu/home/home3")
+//   }
+
+  res.render("menu/home/home3", { check: row });
+
 
   
-  // 오류 안나게 : 로그인했으면 id 담고, 없으면 언디파인드
-  const user = req.session.user ? req.session.user.m_username : undefined;
-  
-  //로그인했을때만
-  if (user) {
-    // 나의 동물정보가져오고
-    const myanimal = await MYANIMAL.findByPk(user);
-    // 아이디에 해당하는 모든 체크리스트 가져오게
-    try {
-      const rows = await CHECK.findAll({
-        where: {
-          u_user: user 
-        }
-      });
-      res.render("menu/home/home3", { check: rows , myanimal}); //체크리스트 정보랑 동물정보 pug에보내고
-    } catch (error) {
-      return res.json("에러.");
-    }
-    // 로그인 안했으면 로그인정보 없는 화면 보여지게.. pug에서 처리할거
-  } else {
-    // return res.json("로그인안했음");
-    res.render("menu/home/home3") 
-  }
-  
-  
+ 
 }); //기본 홈
 
 router.post("/", async (req, res) => {
-
+  // 추가할것 -
+  // 로그인 기능이 구현되면..
+  // 데이터를 추가할때 req.body.u_user = 유저id 넣고
+  // checklist 앞에다가 if user ${유저}의 넣기 else 그냥체크리스트
+  // 로그인후 이용가능합니다
+  // else 입력칸, 추가하기 누르면 알림
 
   // 체크리스트 마지막 번호 가져오기
   const strchecknum = await CHECK.findAll({ order: [["u_num", "DESC"]], limit: 1 });
@@ -52,88 +79,41 @@ router.post("/", async (req, res) => {
   // return res.json({ intchecknum }); // 번호생성체크용
   // return res.json({ strchecknum }); // 정상적으로 가져와짐
 
-  // 안보이는 인풋칸 일련번호, 아이디 넣기 자동생성 
+  // 안보이는 인풋칸 일련번호, 아이디 넣기 자동생성
   req.body.u_num = intchecknum; // 입력데이터 일련번호 자동생성
-  req.body.u_user = req.session.user.m_username; //= 로그인한 아이디 자동입력
-
+  req.body.u_user =req.session.user.m_username; //= 로그인한 아이디 자동입력
+ 
   await CHECK.create(req.body);
   return res.redirect("/");
 });
 //----------- 홈 리스트 삭제
 router.get("/:u_num/delete", async (req, res) => {
-  CHECK.destroy({ where: { u_num: req.params.u_num } }).then(() => {
+  CHECK.destroy({ where: { u_num: req.params.u_num} }).then(() => {
     res.redirect("/");
   });
 });
 //---------------------------- 홈 반려동물추가
-router.get("/insert", (req, res) => {
-  const user = req.session.user ? req.session.user : undefined;
-  if (user) {
-    res.render("menu/home/myanimal");
-  } else {
-    res.redirect("/"); // 로그인안했으면 못들어가게
-  }
-});
-
-
-router.post("/insert", upLoad.single("ma_image"), async (req, res)=>{
-  
-  // const user = req.session.user.m_username;
-  const user = req.session.user ? req.session.user.m_username : undefined;
-  req.body.ma_user = user;
-
-  const file = req.file;
-
-  if (file) {
-   
-    req.body.ma_image_name = file.filename;
-    req.body.ma_image_origin_name = file.originalname;
-  }
-  try {
-    await MYANIMAL.create(req.body); 
-    return res.redirect("/");
-  } catch (error) {
-    // return res.json(error);
-    console.log(error);
-  }
+router.get("/insert",(req,res)=>{
+  res.render("menu/home/myanimal")
 })
-//----------------- 반려동물 정보 수정
-router.get("/update", async (req, res) => {
-  const userinfrom = req.session.user ? req.session.user : undefined;
-  if (userinfrom) {
-    const user = req.session.user ? req.session.user.m_username : undefined;
-  
-    const myanimal = await MYANIMAL.findByPk(user);
-    res.render("menu/home/myanimal", {myanimal});
-  } else {
-    res.redirect("/"); // 로그인안했으면 못들어가게
-  }
-  
 
-});
+// router.post("/insert", (req, res)=>{
+//   res.redirect("/");
+// })
 
+//-------------------------------
 
-router.post("/update", upLoad.single("ma_image"), async (req, res) => {
-  const user = req.session.user ? req.session.user.m_username : undefined;
+router.get("/youtube", async (req, res) => {
+  res.render("menu/home/youtube");
+}); //홈에유튜브추천
 
-  const updateData = {
-    ma_animalname: req.body.ma_animalname,
-    ma_age: req.body.ma_age,
-    ma_memo: req.body.ma_memo,
-  };
+router.get("/survey", async (req, res) => {
+  res.render("menu/home/survey");
+}); //홈에설문
 
-  if (req.file) {
-    updateData.ma_image_name = req.file.filename;
-    updateData.ma_image_origin_name = req.file.originalname;
-  }
-
-  MYANIMAL.update(updateData, {
-    where: { ma_user: user },
-  }).then(() => {
-    res.redirect("/");
-  });
-});
-
+router.get("/recom", async (req, res) => {
+  res.render("menu/home/recom");
+}); //홈에어플추천
 
 // 메뉴들 ------------------------------
 
@@ -153,27 +133,38 @@ const LOGIN_MESSAGE = {
 };
 
 router.get("/login", (req, res) => {
-  const message = req.query.fail;
+  const message = req.query.fail; 
   return res.render("menu/login", { NEED: message });
 });
 router.post("/login", async (req, res) => {
   const username = req.body.m_username;
   const password = req.body.m_password;
 
-  const result = await USER.findByPk(username);
+  const result = await USER.findByPk(username); 
   if (!result) {
     return res.redirect(`/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
   } else if (result.m_username === username) {
+    
+
     if (result.m_password === password) {
-      req.session.user = result;
+       req.session.user = result;
       return res.redirect("/");
     } else {
       return res.redirect(`/login?fail=${LOGIN_MESSAGE.PASS_WRONG}`);
     }
+
+    // return res.json({ MESSAGE: "PASSWORD WRONG" });
   }
-  { 
-    req.session.user = result; 
+  {
+    /**
+     * DB 에서 가져온 사용자정보(result)를
+     * Server 의 세션영역에 user 라는 이름으로 보관하라
+     * 그리고 Session ID 를 발행하라
+     */
+    req.session.user = result; // server에 세션영역에 유저 변수를 만들고 데이터 사용자정보를 저장하고 세션아이디 발행(?)
     return res.redirect("/");
+    // 결과도 비번도같으면
+    // return res.json({ MESSAGE: "LOGIN OK" });
   }
 });
 
@@ -225,12 +216,12 @@ router.get("/mouse3", async (req, res) => {
 
   return res.render("animal/mouse/mouse3", { adata: animaldata });
 });
-// - 물고기
+// - 물고기 
 router.get("/fish1", async (req, res) => {
   const animalname = 동물이름.금붕어;
   const animaldata = await ANIMAL.findByPk(animalname);
 
-  res.render("animal/fish/fish1", { adata: animaldata });
+  res.render("animal/fish/fish1" , { adata: animaldata });
 });
 router.get("/fish2", async (req, res) => {
   const animalname = 동물이름.구피;
@@ -242,9 +233,9 @@ router.get("/fish3", async (req, res) => {
   const animalname = 동물이름.네온테트라;
   const animaldata = await ANIMAL.findByPk(animalname);
 
-  res.render("animal/fish/fish3", { adata: animaldata });
+  res.render("animal/fish/fish3" , { adata: animaldata });
 });
-//- 새
+//- 새 
 router.get("/bird1", async (req, res) => {
   const animalname = 동물이름.앵무새;
   const animaldata = await ANIMAL.findByPk(animalname);
@@ -260,45 +251,45 @@ router.get("/bird2", async (req, res) => {
 router.get("/bird3", async (req, res) => {
   const animalname = 동물이름.앵무새;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/bird/bird3", { adata: animaldata });
 });
 //- 파충류
 router.get("/snake1", async (req, res) => {
   const animalname = 동물이름.뱀;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/snake/snake1", { adata: animaldata });
 });
 router.get("/snake2", async (req, res) => {
   const animalname = 동물이름.거북이;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/snake/snake2", { adata: animaldata });
 });
 router.get("/snake3", async (req, res) => {
   const animalname = 동물이름.도마뱀;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/snake/snake3", { adata: animaldata });
 });
 //- 포유류
 router.get("/cat1", async (req, res) => {
   const animalname = 동물이름.강아지;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/cat/cat1", { adata: animaldata });
 });
 router.get("/cat2", async (req, res) => {
   const animalname = 동물이름.고양이;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/cat/cat2", { adata: animaldata });
 });
 router.get("/cat3", async (req, res) => {
   const animalname = 동물이름.라쿤;
   const animaldata = await ANIMAL.findByPk(animalname);
-
+  
   res.render("animal/cat/cat3", { adata: animaldata });
 });
 

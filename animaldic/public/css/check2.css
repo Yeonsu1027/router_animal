@@ -98,6 +98,10 @@ span.close {
 h3.checklist {
   text-align: center;
 }
+.input_hidden {
+  /*아이디, 일련번호 입력은 자동이므로 가려두기*/
+  display: none;
+}
 form {
   display: flex;
   /* flex-direction: column; */
@@ -114,13 +118,11 @@ form {
     }
   }
 }
-.input_hidden {
-  /*아이디, 일련번호 입력은 자동이므로 가려두기*/
-  display: none;
-}
+
 input.add:hover {
   cursor: pointer;
 }
 section.list li:hover {
   background-color: #fffbe6;
 }
+

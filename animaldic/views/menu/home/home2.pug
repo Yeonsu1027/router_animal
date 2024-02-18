@@ -7,9 +7,12 @@ block content
     link(rel='stylesheet', href='/css/home.css')
     article
         h3.checklist
-            p callor(변수로 변경예정)
-                strong  의 CheckList
+            if user
+                p=user.m_username
+                    strong  의 CheckList
                     i.fa.fa-check-square
+            else 
+                p 로그인 후 이용가능합니다.
         section.input.ckcss
             form(method="POST") 
                 input.add_check(placeholder="할일입력", name="u_check", id="u_check")
@@ -17,9 +20,13 @@ block content
                 input.input_hidden(type="text",  name="u_num", id="u_num")
                 input.add(type="submit",value="추가 +")
         section.list.ckcss
-            each item in check
-                ul
-                    li= item.u_check
+            if user
+                each item in check
+                    ul
+                        li= item.u_check
+            else 
+                ul 
+                    li 로그인후 체크리스트를 작성하세요!
     h3.other Other Contents
         i.fa.fa-plus-circle
     div.etc.notwhitespace
