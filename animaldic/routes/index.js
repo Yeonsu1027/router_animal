@@ -130,9 +130,10 @@ router.post("/update", upLoad.single("ma_image"), async (req, res) => {
 router.get("/notice", async (req, res) => {
   res.render("menu/notice");
 });
-// router.get("/login", async (req, res) => {
-//   res.render("menu/login");
-// });
+router.get("/login", async (req, res) => {
+  res.render("menu/login");
+});
+// 임시적용
 const LOGIN_MESSAGE = {
   USER_NOT: "사용자 ID 없음",
   PASS_WRONG: "비밀번호 오류",
@@ -163,6 +164,36 @@ router.post("/login", async (req, res) => {
     return res.redirect("/");
   }
 });
+// 경우씨 코드
+// router.get("/login", async (req, res) => {
+//   const message = req.query.fail;
+//   res.render("menu/login", { NEED: message });
+// });
+// router.post("login", async (req, res) => {
+//   const username = req.body.m_username;
+//   const password = req.body.m_password;
+
+//   const result = await USER.findByPk(username);
+//   if (!result) {
+//     return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
+//   } else if (result.m_username === username) {
+//     const hashAlgorithm = await crypto.createHash("");
+//     const hashing = hashAlgorithm.update(password);
+//     const hashPassword = hashing.digest("");
+
+//     if (result.m_password === hashPassword) {
+//       req.session.user = result;
+//       return res.redirect("/");
+//     } else {
+//       return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.PASS_WORNG}`);
+//     }
+//   }
+// });
+// const LOGIN_MESSAGE = {
+//   USER_NOT: "사용자 ID없음",
+//   PASS_WORNG: "비밀번호 오류",
+//   NEED_LOGIN: "로그인 필요",
+// };
 
 router.get("/logout", (req, res) => {
   req.session.destroy();
