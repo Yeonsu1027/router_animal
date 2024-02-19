@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 }); //로그인 안하면 추가불가
 
-
 // 리스트 삭제
 document.addEventListener("DOMContentLoaded", () => {
   const btn_delete = document.querySelectorAll("button.delete i.fa.fa-times");
@@ -23,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 //------------- 체크확인 리스트 앞에 빨간 체크표시 추가
 
 document.addEventListener("DOMContentLoaded", () => {
-  const ulContents = document.querySelectorAll("section.list ul");// 어떤리스트를 클릭해도 작동하게 All
-  
+  const ulContents = document.querySelectorAll("section.list ul"); // 어떤리스트를 클릭해도 작동하게 All
+
   const createCheck = (li) => {
     const spanCheck = document.createElement("SPAN");
     spanCheck.classList.add("check");
