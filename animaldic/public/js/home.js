@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-//------------- 체크확인 리스트 앞에 빨간 체크표시 추가
+//------------- 체크확인 리스트 앞에 빨간 체크표시 추가, 글씨회색
 
 document.addEventListener("DOMContentLoaded", () => {
   const ulContents = document.querySelectorAll("section.list ul"); // 어떤리스트를 클릭해도 작동하게 All
