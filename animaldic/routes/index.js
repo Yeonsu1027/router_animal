@@ -11,11 +11,9 @@ const MYANIMAL = DB.models.tbl_myanimal;
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-
-  
   // 오류 안나게 : 로그인했으면 id 담고, 없으면 언디파인드
   const user = req.session.user ? req.session.user.m_username : undefined;
-  
+
   //로그인했을때만
   if (user) {
     // 나의 동물정보가져오고
@@ -24,25 +22,21 @@ router.get("/", async (req, res) => {
     try {
       const rows = await CHECK.findAll({
         where: {
-          u_user: user 
-        }
+          u_user: user,
+        },
       });
-      res.render("menu/home/home3", { check: rows , myanimal}); //체크리스트 정보랑 동물정보 pug에보내고
+      res.render("menu/home/home", { check: rows, myanimal }); //체크리스트 정보랑 동물정보 pug에보내고
     } catch (error) {
       return res.json("에러.");
     }
     // 로그인 안했으면 로그인정보 없는 화면 보여지게.. pug에서 처리할거
   } else {
     // return res.json("로그인안했음");
-    res.render("menu/home/home3") 
+    res.render("menu/home/home");
   }
-  
-  
 }); //기본 홈
 
 router.post("/", async (req, res) => {
-
-
   // 체크리스트 마지막 번호 가져오기
   const strchecknum = await CHECK.findAll({ order: [["u_num", "DESC"]], limit: 1 });
   const num = strchecknum[0].u_num; // json으로 확인해보니 배열1개로 들어있음
@@ -52,7 +46,7 @@ router.post("/", async (req, res) => {
   // return res.json({ intchecknum }); // 번호생성체크용
   // return res.json({ strchecknum }); // 정상적으로 가져와짐
 
-  // 안보이는 인풋칸 일련번호, 아이디 넣기 자동생성 
+  // 안보이는 인풋칸 일련번호, 아이디 넣기 자동생성
   req.body.u_num = intchecknum; // 입력데이터 일련번호 자동생성
   req.body.u_user = req.session.user.m_username; //= 로그인한 아이디 자동입력
 
@@ -75,9 +69,7 @@ router.get("/insert", (req, res) => {
   }
 });
 
-
-router.post("/insert", upLoad.single("ma_image"), async (req, res)=>{
-  
+router.post("/insert", upLoad.single("ma_image"), async (req, res) => {
   // const user = req.session.user.m_username;
   const user = req.session.user ? req.session.user.m_username : undefined;
   req.body.ma_user = user;
@@ -85,33 +77,29 @@ router.post("/insert", upLoad.single("ma_image"), async (req, res)=>{
   const file = req.file;
 
   if (file) {
-   
     req.body.ma_image_name = file.filename;
     req.body.ma_image_origin_name = file.originalname;
   }
   try {
-    await MYANIMAL.create(req.body); 
+    await MYANIMAL.create(req.body);
     return res.redirect("/");
   } catch (error) {
     // return res.json(error);
     console.log(error);
   }
-})
+});
 //----------------- 반려동물 정보 수정
 router.get("/update", async (req, res) => {
   const userinfrom = req.session.user ? req.session.user : undefined;
   if (userinfrom) {
     const user = req.session.user ? req.session.user.m_username : undefined;
-  
+
     const myanimal = await MYANIMAL.findByPk(user);
-    res.render("menu/home/myanimal", {myanimal});
+    res.render("menu/home/myanimal", { myanimal });
   } else {
     res.redirect("/"); // 로그인안했으면 못들어가게
   }
-  
-
 });
-
 
 router.post("/update", upLoad.single("ma_image"), async (req, res) => {
   const user = req.session.user ? req.session.user.m_username : undefined;
@@ -133,7 +121,6 @@ router.post("/update", upLoad.single("ma_image"), async (req, res) => {
     res.redirect("/");
   });
 });
-
 
 // 메뉴들 ------------------------------
 
@@ -171,8 +158,8 @@ router.post("/login", async (req, res) => {
       return res.redirect(`/login?fail=${LOGIN_MESSAGE.PASS_WRONG}`);
     }
   }
-  { 
-    req.session.user = result; 
+  {
+    req.session.user = result;
     return res.redirect("/");
   }
 });
