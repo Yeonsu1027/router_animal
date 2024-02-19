@@ -1,4 +1,5 @@
 CREATE DATABASE animalDB;
+
 USE animalDB;
 
 -- 동물정보 tbl
@@ -39,7 +40,7 @@ SELECT * FROM tbl_check;
 CREATE TABLE tbl_myanimal (
 ma_user VARCHAR(15)	PRIMARY KEY,
 ma_animalname VARCHAR(30),
-ma_age VARCHAR(3),
+ma_age VARCHAR(10),
 ma_image_name VARCHAR(255),
 ma_image_origin_name VARCHAR(255),
 ma_memo VARCHAR(300)
@@ -64,9 +65,11 @@ DROP CONSTRAINT FK_USERANIMAL;
 
 -- ---------------
 -- 공지사항 tbl
-CREATE TABLE tbl_notice (n_director	VARCHAR(20)		PRIMARY KEY,
-n_viewer	VARCHAR(20),	
-n_caution	VARCHAR(200)		
+CREATE TABLE tbl_notice (
+n_num	VARCHAR(100),		
+n_contents	VARCHAR(200),		
+n_director	VARCHAR(20)		PRIMARY KEY
+		
 );
 
 -- 자유게시판 tbl
@@ -76,45 +79,18 @@ password	VARCHAR(150)	NOT NULL,
 title	VARCHAR(150)	NOT NULL,	
 content	TEXT	NOT NULL	
 );
--- ***!!! FK 연결용 data ***--------------------------
--- fk 연결 및 확인용 테이블 기본내용 생성
--- fk 동일해야함 callor
+
+-- 테스트용 기본내용
 INSERT INTO tbl_members (m_username,m_password)
 VALUES ('callor','12341234');
 INSERT INTO tbl_check (u_num,u_user, u_check)
 VALUES('1','callor','털정리');
-INSERT INTO tbl_notice (n_director,n_caution)
-VALUES ('callor','주의사항 내용');
-INSERT INTO tbl_bbd (num,author,password,title,content)
-VALUES ('1','callor','1234','게시글 제목','게시글 내용');
+
 
 -- ------------------------- 테스트용 두번재 아이디
 INSERT INTO tbl_members (m_username,m_password)
 VALUES ('yeonsu','12341234');
 -- ---------------------------
--- FK 연결하기
-
--- tbl_check FK
--- 회원정보 tbl의 m_username 기준으로 fk
-ALTER TABLE tbl_members
-ADD CONSTRAINT FK_CUSER
-FOREIGN KEY (m_username)
-REFERENCES tbl_check(u_user);
--- -----
-
--- tbl_notice FK
--- 회원정보 tbl의 m_username 기준으로 fk
-ALTER TABLE tbl_members
-ADD CONSTRAINT FK_NUSER
-FOREIGN KEY (m_username)
-REFERENCES tbl_notice(n_director);
-
--- tbl_bbd FK
--- 회원정보 tbl의 m_username 기준으로 fk
-ALTER TABLE tbl_members
-ADD CONSTRAINT FK_BUSER
-FOREIGN KEY (m_username)
-REFERENCES tbl_bbd(author);
 
 
 -- 싹다 삭제---------------
