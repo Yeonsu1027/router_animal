@@ -27,6 +27,7 @@ m_role	VARCHAR(5)
 
 SELECT * FROM tbl_members;
 
+
 -- 홈체크리스트 tbl
 CREATE TABLE tbl_check (
 u_num	INT		PRIMARY KEY,
@@ -75,7 +76,6 @@ n_director	VARCHAR(20)		PRIMARY KEY
 CREATE TABLE tbl_bbd (
     num  BIGINT PRIMARY KEY,
 	author VARCHAR(15) NOT NULL ,
-    password VARCHAR(125) NOT NULL,
     title VARCHAR(150) NOT NULL,
     content TEXT NOT NULL,
 	image_name VARCHAR(255),
@@ -83,6 +83,7 @@ CREATE TABLE tbl_bbd (
     date	VARCHAR(10)	NOT NULL
 );
 
+DROP TABLE tbl_bbd;
 -- 테스트용 기본내용
 INSERT INTO tbl_members (m_username,m_password)
 VALUES ('callor','12341234');
