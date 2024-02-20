@@ -26,8 +26,9 @@ html(lang="ko")
       if user
         //- li MyPAGE(#{user.m_username})
         //-   i.fa.fa-address-book
-        a.logout(href="/logout") 로그아웃
-          i.fa.fa-ban
+        li
+          a.logout(href="/logout") 로그아웃
+            i.fa.fa-ban
       else
         li
           a(href="login") 로그인
