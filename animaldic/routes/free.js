@@ -51,54 +51,51 @@ router.get("/insert", (req, res) => {
 });
 
 router.post("/insert", upLoad.single("image"), async (req, res) => {
-  const username = req.body.author;
-  const password = req.body.password;
-  req.body.date = moment().format("YYYY-MM-DD");
+  const user = req.session.user ? req.session.user.m_username : undefined;
 
-  const result = await USER.findByPk(username);
-  if (!result) {
-    res.send("아이디가 잘못되었습니다.");
-  } else if (result.m_username === username) {
-    if (result.m_password === password) {
-      let num = req.body.num;
-      if (!num) {
-        const rows = await BBD.findAll({ order: [["num", "DESC"]], limit: 1 });
-        num = rows[0].num;
-        num = Number(num) + 1;
-        req.body.num = num;
-      }
-      const file = req.file;
-      if (file) {
-        req.body.image_name = req.file.filename;
-        req.body.image_origin_name = req.file.originalname;
-      }
-      const bd_data = req.body;
+  if (user) {
+    req.body.date = moment().format("YYYY-MM-DD");
 
-      try {
-        await BBD.create(bd_data);
-        return res.redirect("/freeboard");
-      } catch (error) {
-        return res.json(error);
-      }
-    } else {
-      res.send("비밀번호가 잘못되었습니다.");
+    req.body.num = 1;
+    // let num = req.body.num;
+    // if (!num) {
+    //   const rows = await BBD.findAll({ order: [["num", "DESC"]], limit: 1 });
+    //   num = rows[0].num;
+    //   num = Number(num) + 1;
+    //   req.body.num = num;
+    // }
+    const file = req.file;
+    if (file) {
+      req.body.image_name = req.file.filename;
+      req.body.image_origin_name = req.file.originalname;
     }
+    req.body.author = user;
+    const bd_data = req.body;
+
+    try {
+      await BBD.create(bd_data);
+      return res.redirect("/freeboard");
+    } catch (error) {
+      return res.json(error);
+    }
+  } else {
+    res.redirect("/login"); // 로그인안되어있으면 로그인페이지로
   }
-
-  // const file = req.file;
-  // if (file) {
-  //   req.body.image_name = file.fieldname;
-  //   req.body.image_origin_name = file.originalname;
-  // }
-  // const bd_data = req.body;
-
-  // try {
-  //   await BBD.create(bd_data);
-  //   return res.redirect("/freeboard");
-  // } catch (error) {
-  //   return res.json(error);
-  // }
 });
+
+// const file = req.file;
+// if (file) {
+//   req.body.image_name = file.fieldname;
+//   req.body.image_origin_name = file.originalname;
+// }
+// const bd_data = req.body;
+
+// try {
+//   await BBD.create(bd_data);
+//   return res.redirect("/freeboard");
+// } catch (error) {
+//   return res.json(error);
+// }
 
 router.get("/:num/detail", async (req, res) => {
   const num = req.params.num;
