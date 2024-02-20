@@ -21,7 +21,8 @@ import logger from "morgan";
 // import router modules
 import indexRouter from "../routes/index.js";
 import usersRouter from "../routes/users.js";
-
+import freeRouter from "../routes/free.js";
+import noticeRouter from "../routes/notice.js";
 
 // create express framework
 const app = express();
@@ -60,11 +61,11 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // router link enable, link connection
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
+app.use("/freeboard", freeRouter);
+app.use("/nwrite", noticeRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

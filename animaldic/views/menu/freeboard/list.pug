@@ -2,19 +2,19 @@ extends freeboard
 
 block list_content
   link(rel="stylesheet", href="/css/free.css")
-  script(src="/js/list.js") 
+  script(src="/js/freeboard.js") 
   table.list
     thead 
       tr
-        th
-          strong  No. 
-        th
-          strong  제목
-        th
-          strong  글쓴이
+        th No.
+          span.No
+        th 제목
+          span.title
+        th 글쓴이
+          span.author
     tbody
-      each book,index in books
-        tr(data-author=`${book.author}`) 
+      each bd,index in BBD
+        tr(data-num=`${bd.num}`) 
           td #{index+1}
-          td= book.title
-          td= book.author 
+          td= bd.title
+          td= bd.author 

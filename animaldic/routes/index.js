@@ -127,9 +127,10 @@ router.post("/update", upLoad.single("ma_image"), async (req, res) => {
 // router.get("/freeboard", async (req, res) => {
 //   res.render("menu/freeboard/freeboard");
 // });
-router.get("/notice", async (req, res) => {
-  res.render("menu/notice");
-});
+
+// router.get("/notice", async (req, res) => {
+//   res.render("menu/notice");
+// });
 router.get("/login", async (req, res) => {
   res.render("menu/login");
 });
@@ -164,7 +165,18 @@ router.post("/login", async (req, res) => {
     return res.redirect("/");
   }
 });
-// 경우씨 코드
+
+//-------
+// let crypto; //오류 날 수있어서 이런형태 권장
+// try {
+//   crypto = await import("node:crypto");
+// } catch (error) {
+//   console.error(`Crypt 모듈을 사용할 수 없음 ${error}`);
+// }
+
+// // -------------------
+
+// // 경우씨 코드 -- 회원가입 미완성으로 작동 확인불가능
 // router.get("/login", async (req, res) => {
 //   const message = req.query.fail;
 //   res.render("menu/login", { NEED: message });
