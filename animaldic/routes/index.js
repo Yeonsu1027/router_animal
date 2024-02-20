@@ -36,11 +36,35 @@ router.get("/", async (req, res) => {
   }
 }); //기본 홈
 
+// router.post("/", async (req, res) => {
+//   // 체크리스트 마지막 번호 가져오기
+//   const strchecknum = await CHECK.findAll({ order: [["u_num", "DESC"]], limit: 1 });
+//   const num = strchecknum[0].u_num; // json으로 확인해보니 배열1개로 들어있음
+//   const intchecknum = Number(num) + 1;
+
+//   // test
+//   // return res.json({ intchecknum }); // 번호생성체크용
+//   // return res.json({ strchecknum }); // 정상적으로 가져와짐
+
+//   // 안보이는 인풋칸 일련번호, 아이디 넣기 자동생성
+//   req.body.u_num = intchecknum; // 입력데이터 일련번호 자동생성
+//   req.body.u_user = req.session.user.m_username; //= 로그인한 아이디 자동입력
+
+//   await CHECK.create(req.body);
+//   return res.redirect("/");
+// });
 router.post("/", async (req, res) => {
   // 체크리스트 마지막 번호 가져오기
   const strchecknum = await CHECK.findAll({ order: [["u_num", "DESC"]], limit: 1 });
-  const num = strchecknum[0].u_num; // json으로 확인해보니 배열1개로 들어있음
-  const intchecknum = Number(num) + 1;
+  let intchecknum;
+
+  if (strchecknum.length > 0) {
+    const num = strchecknum[0].u_num;
+    intchecknum = Number(num) + 1;
+  } else {
+    // 테이블에 정보 하나도 없으면
+    intchecknum = 0;
+  }
 
   // test
   // return res.json({ intchecknum }); // 번호생성체크용
@@ -53,12 +77,30 @@ router.post("/", async (req, res) => {
   await CHECK.create(req.body);
   return res.redirect("/");
 });
+
 //----------- 홈 리스트 삭제
 router.get("/:u_num/delete", async (req, res) => {
   CHECK.destroy({ where: { u_num: req.params.u_num } }).then(() => {
     res.redirect("/");
   });
 });
+//--------------- 홈 리스트 체크표시추가
+
+router.get("/:u_num/check", async (req, res) => {
+  const u_num = req.params.u_num;
+  const row = await CHECK.findByPk(u_num);
+
+  if (row.u_checkmark === null) {
+    row.u_checkmark = 1;
+  } else if (row.u_checkmark === 1) {
+    row.u_checkmark = null;
+  }
+
+  await row.save();
+
+  return res.redirect("/");
+});
+
 //---------------------------- 홈 반려동물추가
 router.get("/insert", (req, res) => {
   const user = req.session.user ? req.session.user : undefined;
@@ -88,6 +130,7 @@ router.post("/insert", upLoad.single("ma_image"), async (req, res) => {
     console.log(error);
   }
 });
+
 //----------------- 반려동물 정보 수정
 router.get("/update", async (req, res) => {
   const userinfrom = req.session.user ? req.session.user : undefined;
@@ -121,6 +164,7 @@ router.post("/update", upLoad.single("ma_image"), async (req, res) => {
     res.redirect("/");
   });
 });
+// ---------- END HOME -------------------------
 
 // 메뉴들 ------------------------------
 

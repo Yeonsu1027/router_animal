@@ -31,7 +31,8 @@ SELECT * FROM tbl_members;
 CREATE TABLE tbl_check (
 u_num	INT		PRIMARY KEY,
 u_user	VARCHAR(15)	NOT NULL,	
-u_check	VARCHAR(100)	NOT NULL
+u_check	VARCHAR(100)	NOT NULL,
+u_checkmark INT
 );
 
 SELECT * FROM tbl_check;
@@ -78,7 +79,8 @@ CREATE TABLE tbl_bbd (
     title VARCHAR(150) NOT NULL,
     content TEXT NOT NULL,
 	image_name VARCHAR(255),
-    image_origin_name VARCHAR(255)
+    image_origin_name VARCHAR(255),
+    date	VARCHAR(10)	NOT NULL
 );
 
 -- 테스트용 기본내용

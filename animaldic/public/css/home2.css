@@ -1,25 +1,29 @@
 /* 체크리스트 체크 시 */
-span {
+span.check {
   color: red;
   margin-left: 5px;
   margin-right: 5px;
 }
-ul.line {
+li.licheck {
+  color: rgb(187, 187, 187);
+  text-decoration: line-through;
+}
+/* ul.line {
   /* background-color: white; */
-  li {
+/* li {
     color: #c6c6c6;
   }
-}
+/* } */
 
 /* 나의반려동물 칸 */
-h3.other {
+/* h3.other {
   background-color: #00dad6;
 
   text-align: center;
   padding: 12px;
   border-top-right-radius: 50px 100px;
   border-top-left-radius: 50px 100px;
-}
+} */
 div.mypet {
   display: flex;
   justify-content: center;
