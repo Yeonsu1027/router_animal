@@ -179,15 +179,51 @@ router.get("/login", async (req, res) => {
   res.render("menu/login");
 });
 // 임시적용
-const LOGIN_MESSAGE = {
-  USER_NOT: "사용자 ID 없음",
-  PASS_WRONG: "비밀번호 오류",
-  NEED_LOGIN: "로그인 필요",
-};
+// const LOGIN_MESSAGE = {
+//   USER_NOT: "사용자 ID 없음",
+//   PASS_WRONG: "비밀번호 오류",
+//   NEED_LOGIN: "로그인 필요",
+// };
 
-router.get("/login", (req, res) => {
+// router.get("/login", (req, res) => {
+//   const message = req.query.fail;
+//   return res.render("menu/login", { NEED: message });
+// });
+// router.post("/login", async (req, res) => {
+//   const username = req.body.m_username;
+//   const password = req.body.m_password;
+
+//   const result = await USER.findByPk(username);
+//   if (!result) {
+//     return res.redirect(`/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
+//   } else if (result.m_username === username) {
+//     if (result.m_password === password) {
+//       req.session.user = result;
+//       return res.redirect("/");
+//     } else {
+//       return res.redirect(`/login?fail=${LOGIN_MESSAGE.PASS_WRONG}`);
+//     }
+//   }
+//   {
+//     req.session.user = result;
+//     return res.redirect("/");
+//   }
+// });
+
+//-------
+let crypto; //오류 날 수있어서 이런형태 권장
+try {
+  crypto = await import("node:crypto");
+} catch (error) {
+  console.error(`Crypt 모듈을 사용할 수 없음 ${error}`);
+}
+
+// // -------------------
+
+// 경우씨 코드 -- 회원가입 미완성으로 작동 확인불가능
+router.get("/login", async (req, res) => {
   const message = req.query.fail;
-  return res.render("menu/login", { NEED: message });
+  res.render("menu/login", { NEED: message });
 });
 router.post("/login", async (req, res) => {
   const username = req.body.m_username;
@@ -195,61 +231,25 @@ router.post("/login", async (req, res) => {
 
   const result = await USER.findByPk(username);
   if (!result) {
-    return res.redirect(`/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
+    return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
   } else if (result.m_username === username) {
-    if (result.m_password === password) {
+    const hashAlgorithm = await crypto.createHash("");
+    const hashing = hashAlgorithm.update(password);
+    const hashPassword = hashing.digest("");
+
+    if (result.m_password === hashPassword) {
       req.session.user = result;
       return res.redirect("/");
     } else {
-      return res.redirect(`/login?fail=${LOGIN_MESSAGE.PASS_WRONG}`);
+      return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.PASS_WORNG}`);
     }
   }
-  {
-    req.session.user = result;
-    return res.redirect("/");
-  }
 });
-
-//-------
-// let crypto; //오류 날 수있어서 이런형태 권장
-// try {
-//   crypto = await import("node:crypto");
-// } catch (error) {
-//   console.error(`Crypt 모듈을 사용할 수 없음 ${error}`);
-// }
-
-// // -------------------
-
-// // 경우씨 코드 -- 회원가입 미완성으로 작동 확인불가능
-// router.get("/login", async (req, res) => {
-//   const message = req.query.fail;
-//   res.render("menu/login", { NEED: message });
-// });
-// router.post("login", async (req, res) => {
-//   const username = req.body.m_username;
-//   const password = req.body.m_password;
-
-//   const result = await USER.findByPk(username);
-//   if (!result) {
-//     return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
-//   } else if (result.m_username === username) {
-//     const hashAlgorithm = await crypto.createHash("");
-//     const hashing = hashAlgorithm.update(password);
-//     const hashPassword = hashing.digest("");
-
-//     if (result.m_password === hashPassword) {
-//       req.session.user = result;
-//       return res.redirect("/");
-//     } else {
-//       return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.PASS_WORNG}`);
-//     }
-//   }
-// });
-// const LOGIN_MESSAGE = {
-//   USER_NOT: "사용자 ID없음",
-//   PASS_WORNG: "비밀번호 오류",
-//   NEED_LOGIN: "로그인 필요",
-// };
+const LOGIN_MESSAGE = {
+  USER_NOT: "사용자 ID없음",
+  PASS_WORNG: "비밀번호 오류",
+  NEED_LOGIN: "로그인 필요",
+};
 
 router.get("/logout", (req, res) => {
   req.session.destroy();
@@ -257,9 +257,9 @@ router.get("/logout", (req, res) => {
 }); // 로그아웃
 
 // --------------------
-router.get("/join", async (req, res) => {
-  res.render("menu/join");
-});
+// router.get("/join", async (req, res) => {
+//   res.render("menu/join");
+// });
 // 동물들 ---------------------------------------
 
 // pk용

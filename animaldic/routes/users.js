@@ -7,9 +7,9 @@ router.get("/", async (req, res, next) => {
 });
 
 //----------------------- 경우씨
-router.get("/join", async (req, res) => {
-  res.render("join");
-});
+// router.get("/join", async (req, res) => {
+//   res.render("join");
+// });
 router.get("/find", async (req, res) => {
   res.render("menu/find");
 });
@@ -57,7 +57,8 @@ router.post("/join", async (req, res) => {
 
   const result = await USER.create(req.body);
 
-  return res.redirect("menu/login");
+  // return res.redirect("menu/login");
+  return res.redirect("/login");
 });
 
 router.get("/:m_username/check", async (req, res) => {
