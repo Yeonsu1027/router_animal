@@ -231,17 +231,22 @@ router.post("/login", async (req, res) => {
 
   const result = await USER.findByPk(username);
   if (!result) {
-    return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
+    return res.redirect(`/login?fail=${LOGIN_MESSAGE.USER_NOT}`);
   } else if (result.m_username === username) {
-    const hashAlgorithm = await crypto.createHash("");
+    // const hashAlgorithm = await crypto.createHash("");
+    // const hashing = hashAlgorithm.update(password);
+    // const hashPassword = hashing.digest("");
+
+    // 수정
+    const hashAlgorithm = crypto.createHash("sha512");
     const hashing = hashAlgorithm.update(password);
-    const hashPassword = hashing.digest("");
+    const hashPassword = hashing.digest("base64");
 
     if (result.m_password === hashPassword) {
       req.session.user = result;
       return res.redirect("/");
     } else {
-      return res.redirect(`/users/login?fail=${LOGIN_MESSAGE.PASS_WORNG}`);
+      return res.redirect(`/login?fail=${LOGIN_MESSAGE.PASS_WORNG}`);
     }
   }
 });
