@@ -22,12 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
       content.select();
       return false;
     }
-    if (!author.value) {
+    if (!user&&!author?.value) {
       alert("아이디를 작성해주세요");
       author.select();
       return false;
     }
-    if (!password.value) {
+    if (!user && password?.value) {
       alert("비밀번호를 작성해주세요");
       password.select();
       return false;

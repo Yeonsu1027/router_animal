@@ -11,7 +11,13 @@ block content
           hr
           textarea.text(name="content" placeholder='내용을 입력해주세요.')
           div.free
-            div.user
+            if user
+              div.user
+                input(type="file" accept="image/*" name="image")
+            else 
+              div.user
+                  input.author(type="text" name="author" placeholder='ID' )
+                  input.password(type="password" name='password' placeholder='PASSWORD')
                   input(type="file" accept="image/*" name="image")
             div.freebutton
                 input.btn.btn_post(type="submit", value= "게시")

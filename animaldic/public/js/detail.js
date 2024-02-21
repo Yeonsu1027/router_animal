@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const user = '<%= user %>'; // 세션에서 user 정보를 가져옵니다.
   const password = document.querySelector("input[name='password']");
   const form = document.querySelector("form.write");
   const btn_update = form.querySelector(".btn.update");
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
-    if (!password.value) {
+    if (!user && !password.value) {
       alert("비밀번호를 작성해주세요");
       password.select();
       return false;

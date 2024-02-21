@@ -15,9 +15,10 @@ block content
           else
             textarea.text(name="content" readonly)=bd.content
           div.free
-            div.user
-                input.author(type="text" name="author" value=`${bd.author}` readonly )
-                input.password(type="password" name='password' placeholder='PASSWORD')
+            if !user
+              div.user
+                  input.author(type="text" name="author" value=`${bd.author}` readonly )
+                  input.password(type="password" name='password' placeholder='PASSWORD')
             div.freebutton(data-num=`${bd.num}`)
               input.btn.update(type="button" data-num=`${bd.num}` value="수정") 
               input.btn.delete(type="button" data-num=`${bd.num}` value="삭제")
